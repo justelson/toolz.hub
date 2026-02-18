@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Test</title>
+  <style>
+    :root {
+      --background: 210 17% 93%;
+      --foreground: 0 0% 20%;
+      --card: 0 0% 100%;
+      --primary: 14 75% 55%;
+    }
+
+    .dark {
+      --background: 217 28% 15%;
+      --foreground: 0 0% 90%;
+      --card: 217 24% 18%;
+      --primary: 14 75% 55%;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-family: system-ui;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card {
+      background-color: hsl(var(--card));
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    button {
+      background-color: hsl(var(--primary));
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Theme Test</h1>
+  <p>Current theme: <span id="theme-display">dark</span></p>
+  
+  <button onclick="toggleTheme()">Toggle Theme</button>
+  
+  <div class="card">
+    <h2>Test Card</h2>
+    <p>This card should change colors when you toggle the theme.</p>
+  </div>
+
+  <script>
+    let theme = 'dark';
+    document.documentElement.classList.add('dark');
+    
+    function toggleTheme() {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      document.getElementById('theme-display').textContent = theme;
+      console.log('Theme changed to:', theme);
+      console.log('HTML classes:', document.documentElement.className);
+    }
+  </script>
+</body>
+</html>
