@@ -1,0 +1,10 @@
+﻿{
+  "mcpServers": {
+    "notionApi": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\elson\\my_coding_play\\toolz\\notion-mcp\\server.py"
+      ]
+    }
+  }
+}

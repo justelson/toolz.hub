@@ -1,0 +1,16 @@
+{
+  "name": "notion-mcp",
+  "version": "1.0.0",
+  "description": "This folder contains a local launcher for the official Notion MCP server package.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@notionhq/notion-mcp-server": "^2.2.0"
+  }
+}

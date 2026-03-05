@@ -1,0 +1,4 @@
+﻿# Ignore local secrets and machine-specific configs
+.env
+mcp.json
+__pycache__/
