@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "togltabs",
+  "version": "1.0.0",
+  "description": "Track your time on YouTube, Instagram, and X.",
+  "permissions": ["tabs", "idle", "storage", "alarms"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "32": "assets/icon32.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["lib/sql-wasm.js", "lib/sql-wasm.wasm", "lib/db-worker.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

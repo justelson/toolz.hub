@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate RayTabs Icon</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 40px;
+      background: #1a1b1e;
+      color: #f0f0f0;
+    }
+    canvas {
+      border: 2px solid #333;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    button {
+      background: #8c5cff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background: #7a4de6;
+    }
+  </style>
+</head>
+<body>
+  <h1>RayTabs Icon Generator</h1>
+  <p>Click the button below to download the icon as PNG:</p>
+  
+  <canvas id="canvas" width="128" height="128"></canvas>
+  
+  <div>
+    <button onclick="downloadIcon()">Download 128x128 PNG</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function drawIcon() {
+      // Create gradient
+      const gradient = ctx.createLinearGradient(0, 0, 128, 128);
+      gradient.addColorStop(0, 'rgb(140, 92, 255)');
+      gradient.addColorStop(1, 'rgb(120, 192, 255)');
+      
+      // Draw rounded rectangle background
+      ctx.fillStyle = gradient;
+      roundRect(ctx, 8, 8, 112, 112, 24);
+      ctx.fill();
+      
+      // Draw border
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 8, 8, 112, 112, 24);
+      ctx.stroke();
+      
+      // Draw RT text
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 48px system-ui, -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('RT', 64, 68);
+      
+      // Draw infinity symbol (atomic number position)
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = '600 16px system-ui, -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('∞', 100, 28);
+    }
+    
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+    
+    function downloadIcon() {
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'icon128.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+    
+    // Draw icon on load
+    drawIcon();
+  </script>
+</body>
+</html>

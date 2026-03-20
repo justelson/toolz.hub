@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "RayTabs",
+  "version": "1.0.0",
+  "description": "Spotlight-style quick search for Chrome browser",
+  "permissions": [
+    "tabs",
+    "storage",
+    "scripting",
+    "history",
+    "commands",
+    "identity"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "commands": {
+    "toggle-search": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Alt+S"
+      },
+      "description": "Toggle RayTabs search"
+    }
+  },
+  "action": {
+    "default_title": "RayTabs",
+    "default_icon": {
+      "16": "assets/icon.png",
+      "32": "assets/icon.png",
+      "48": "assets/icon.png",
+      "128": "assets/icon.png"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["content/tailwindcss", "content/content.css", "assets/icon.png", "assets/icon128.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "128": "assets/icon.png",
+    "48": "assets/icon.png",
+    "32": "assets/icon.png",
+    "16": "assets/icon.png"
+  }
+}

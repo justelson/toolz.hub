@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=340">
+  <title>togltabs</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body data-theme="dark">
+  <div id="app">
+    <div id="pinned-strip"></div>
+    <main id="main-content">
+      <div class="loading-shell">
+        <div class="loading-logo-wrap">
+          <img class="loading-logo" src="../assets/logo.svg" alt="togltabs logo">
+        </div>
+        <div class="loading-bar loading-bar-lg"></div>
+        <div class="loading-card"></div>
+        <div class="loading-card"></div>
+        <div class="loading-card loading-card-sm"></div>
+      </div>
+    </main>
+    <div id="main-overlay" class="manage-overlay hidden">
+      <div class="manage-overlay-card" id="main-overlay-content"></div>
+    </div>
+    <footer id="footer">
+      <button id="manage-sites-btn" type="button"></button>
+    </footer>
+  </div>
+  <script src="../lib/sql-wasm.js"></script>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
