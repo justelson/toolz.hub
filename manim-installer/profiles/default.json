@@ -1,0 +1,13 @@
+{
+  "python": "3.12",
+  "manim": "latest",
+  "latex": "miktex",
+  "ffmpeg": "chocolatey:ffmpeg",
+  "uv": {
+    "install_method": "official_installer",
+    "tool_dir": "%ProgramData%\\ManimInstaller\\uv\\tools",
+    "tool_bin_dir": "%ProgramData%\\ManimInstaller\\bin"
+  },
+  "scope": "machine",
+  "test_scene": "scripts/hello_world.py"
+}
