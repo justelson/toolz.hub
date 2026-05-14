@@ -8,6 +8,7 @@ It uses Chocolatey for Windows-level dependencies and uv for Python, Python vers
 
 - Chocolatey, if missing
 - uv, using Astral's official installer
+- Microsoft Visual C++ runtime, through Chocolatey
 - FFmpeg, through Chocolatey
 - MiKTeX, through Chocolatey unless skipped
 - Python, managed by uv
@@ -25,6 +26,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "$script=Join-Path $env:T
 ```
 
 The script relaunches as Administrator when needed because it installs system packages and writes machine PATH entries.
+
+If a run fails partway through, run the same command again. The installer is idempotent: it checks what already exists, skips completed setup, and continues with the missing or failed step.
 
 ## Remote Commands
 
@@ -130,6 +133,7 @@ UV_TOOL_BIN_DIR=%ProgramData%\ManimInstaller\bin
 - Open a new terminal after installation if the current shell does not see `manim`.
 - MiKTeX can take extra time on first LaTeX render while it installs missing TeX packages.
 - The Hello World test uses Manim `Text`, so it can validate Manim without requiring a LaTeX-heavy scene.
+- Native Python wheel import errors such as `DLL load failed` are usually fixed by the Visual C++ runtime step. Rerun the same command after updating this installer.
 
 ## References
 

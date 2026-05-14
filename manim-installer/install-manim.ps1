@@ -49,6 +49,7 @@ Usage:
 What it installs:
   - Chocolatey, if missing
   - uv, using Astral's official installer
+  - Microsoft Visual C++ runtime, using Chocolatey
   - FFmpeg, using Chocolatey
   - MiKTeX, using Chocolatey unless -NoLatex or -Latex none is passed
   - Python, using uv-managed Python
@@ -242,6 +243,40 @@ function Ensure-ChocoPackage {
     }
 }
 
+function Test-VcRuntime {
+    $system32 = Join-Path $env:WINDIR "System32"
+    $requiredDlls = @("vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll")
+
+    foreach ($dll in $requiredDlls) {
+        if (-not (Test-Path (Join-Path $system32 $dll))) {
+            return $false
+        }
+    }
+
+    return $true
+}
+
+function Ensure-VcRuntime {
+    if (Test-VcRuntime) {
+        Write-Ok "Visual C++ runtime found"
+        return
+    }
+
+    if ($NoChoco) {
+        throw "Microsoft Visual C++ runtime is missing and -NoChoco was passed."
+    }
+
+    Write-Step "Installing Microsoft Visual C++ runtime"
+    Invoke-Native "choco" @("install", "-y", "vcredist140", "--ignore-package-exit-codes")
+    Refresh-ProcessPath
+
+    if (-not (Test-VcRuntime)) {
+        throw "Visual C++ runtime install finished, but required DLLs are still missing. Restart Windows and rerun this installer."
+    }
+
+    Write-Ok "Visual C++ runtime installed"
+}
+
 function Ensure-Uv {
     if (Get-Command uv -ErrorAction SilentlyContinue) {
         Write-Ok "uv found"
@@ -304,9 +339,14 @@ function Ensure-Manim {
     Write-Step "Installing uv-managed Python $Python"
     Invoke-Native "uv" @("python", "install", $Python)
 
+    if ((Get-Command manim -ErrorAction SilentlyContinue) -and -not $Repair -and [string]::IsNullOrWhiteSpace($ManimVersion)) {
+        Write-Ok "Manim command already available; skipping uv tool install"
+        return
+    }
+
     $package = if ([string]::IsNullOrWhiteSpace($ManimVersion)) { "manim" } else { "manim==$ManimVersion" }
     $installArgs = @("tool", "install", "--python", $Python)
-    if ($Repair) {
+    if ($Repair -or -not [string]::IsNullOrWhiteSpace($ManimVersion)) {
         $installArgs += "--force"
     }
     $installArgs += $package
@@ -356,14 +396,21 @@ function Invoke-Doctor {
         }
     }
 
+    if (Test-VcRuntime) {
+        Write-Ok "Visual C++ runtime: found"
+    } else {
+        Write-Warn "Visual C++ runtime: missing"
+        $failed += "Visual C++ runtime"
+    }
+
     if (Get-Command uv -ErrorAction SilentlyContinue) {
         Invoke-Native "uv" @("--version") -IgnoreExitCode
         Invoke-Native "uv" @("tool", "dir", "--bin") -IgnoreExitCode
     }
 
     if (Get-Command manim -ErrorAction SilentlyContinue) {
-        Invoke-Native "manim" @("--version") -IgnoreExitCode
-        Invoke-Native "manim" @("checkhealth") -IgnoreExitCode
+        Invoke-Native "manim" @("--version")
+        Invoke-Native "manim" @("checkhealth")
     }
 
     if ($failed.Count -gt 0) {
@@ -445,6 +492,7 @@ Publish-UvMachineWide
 Configure-UvToolDirs
 
 if (-not $NoChoco) {
+    Ensure-VcRuntime
     Ensure-ChocoPackage -PackageName "ffmpeg" -CommandName "ffmpeg"
     if ($Latex -eq "miktex") {
         Ensure-ChocoPackage -PackageName "miktex" -CommandName "pdflatex"
