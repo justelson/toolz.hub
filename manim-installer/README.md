@@ -16,83 +16,70 @@ It uses Chocolatey for Windows-level dependencies and uv for Python, Python vers
 
 Manim itself is not installed through Chocolatey. Chocolatey handles OS dependencies; uv handles the Python side.
 
-## Quick Install
+## Recommended Sandbox Test
 
-From this folder:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender
-```
-
-From a remote raw script URL:
+Copy/paste this on a fresh Windows sandbox. It downloads the latest installer, installs Manim system-wide, renders `Hello World`, and opens the MP4:
 
 ```powershell
-irm https://raw.githubusercontent.com/<owner>/<repo>/<branch>/manim-installer/install-manim.ps1 -OutFile install-manim.ps1
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -TestRender -OpenRender
 ```
 
 The script relaunches as Administrator when needed because it installs system packages and writes machine PATH entries.
 
-## Common Commands
+## Remote Commands
+
+Install, render, and open the generated MP4:
+
+```powershell
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -TestRender -OpenRender
+```
 
 Install the default setup:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script
 ```
 
 Install and render the test animation:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender
-```
-
-Install, render, and open the generated MP4:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender -OpenRender
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -TestRender
 ```
 
 Pin Python and Manim versions:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -Python 3.12 -ManimVersion 0.20.0
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -Python 3.12 -ManimVersion 0.20.0 -TestRender -OpenRender
 ```
 
 Skip LaTeX:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -NoLatex
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -NoLatex -TestRender -OpenRender
 ```
 
 Check an existing install:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly
-```
-
-Check an existing install and render Hello World:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly -TestRender
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -DoctorOnly
 ```
 
 Check an existing install, render Hello World, and open the MP4:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly -TestRender -OpenRender
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -DoctorOnly -TestRender -OpenRender
 ```
 
 Force-refresh the Manim uv tool install:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -Repair
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -Repair -TestRender -OpenRender
 ```
 
 Use existing manually installed system dependencies and skip Chocolatey:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -NoChoco
+$script="$env:TEMP\install-manim.ps1"; irm "https://raw.githubusercontent.com/justelson/toolz.hub/main/manim-installer/install-manim.ps1" -OutFile $script; powershell -ExecutionPolicy Bypass -File $script -NoChoco -TestRender -OpenRender
 ```
 
 ## Test Render
