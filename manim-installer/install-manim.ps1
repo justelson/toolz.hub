@@ -19,6 +19,7 @@ param(
     [string]$Latex = "miktex",
     [switch]$NoLatex,
     [switch]$TestRender,
+    [switch]$OpenRender,
     [switch]$DoctorOnly,
     [switch]$Repair,
     [switch]$NoChoco,
@@ -41,6 +42,7 @@ Manim Windows Installer
 Usage:
   powershell -ExecutionPolicy Bypass -File .\install-manim.ps1
   powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender
+  powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender -OpenRender
   powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -Python 3.12 -ManimVersion 0.20.0
   powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly
 
@@ -54,6 +56,7 @@ What it installs:
 
 Useful flags:
   -TestRender       Render a small Hello World animation after install/checks.
+  -OpenRender       Open the rendered MP4 after a successful -TestRender run.
   -DoctorOnly       Only check the current machine; do not install packages.
   -Repair           Force-refresh uv's Manim tool install.
   -NoLatex          Skip LaTeX installation. Text-only Manim scenes still work.
@@ -408,6 +411,15 @@ class HelloWorld(Scene):
     }
 
     Write-Ok "Rendered: $($video.FullName)"
+
+    if ($OpenRender) {
+        try {
+            Start-Process -FilePath $video.FullName
+            Write-Ok "Opened render"
+        } catch {
+            Write-Warn "Render was created, but Windows could not open it automatically: $($_.Exception.Message)"
+        }
+    }
 }
 
 Ensure-AdminIfNeeded

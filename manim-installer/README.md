@@ -47,6 +47,12 @@ Install and render the test animation:
 powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender
 ```
 
+Install, render, and open the generated MP4:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -TestRender -OpenRender
+```
+
 Pin Python and Manim versions:
 
 ```powershell
@@ -71,6 +77,12 @@ Check an existing install and render Hello World:
 powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly -TestRender
 ```
 
+Check an existing install, render Hello World, and open the MP4:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -DoctorOnly -TestRender -OpenRender
+```
+
 Force-refresh the Manim uv tool install:
 
 ```powershell
@@ -86,6 +98,8 @@ powershell -ExecutionPolicy Bypass -File .\install-manim.ps1 -NoChoco
 ## Test Render
 
 With `-TestRender`, the installer renders this scene:
+
+Add `-OpenRender` to open the generated MP4 after a successful render.
 
 ```python
 from manim import *
